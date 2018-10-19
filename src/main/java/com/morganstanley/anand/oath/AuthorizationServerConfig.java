@@ -13,6 +13,8 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
+import javax.sql.DataSource;
+
 import static com.morganstanley.anand.oath.ResourceServerConfig.RESOURCE_ID;
 
 @Configuration
@@ -33,12 +35,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Autowired
     private TokenStore tokenStore;
+    private DataSource dataSource;
 
     @Autowired
     private AuthenticationManager authenticationManager;
 
+
     @Override
     public void configure(ClientDetailsServiceConfigurer configurer) throws Exception {
+        //configurer.jdbc(dataSource);
         configurer
                 .inMemory()
                 .withClient(CLIEN_ID)
@@ -58,7 +63,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Bean
     @Primary
-    public ResourceServerTokenServices tokenServices() {
+    public DefaultTokenServices tokenServices() {
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         tokenServices.setSupportRefreshToken(true);
         tokenServices.setTokenStore(this.tokenStore);

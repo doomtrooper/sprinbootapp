@@ -22,8 +22,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
                 http
                 .authorizeRequests()
-                .antMatchers("/api/trade/**").authenticated()
-                .antMatchers("/api/user/**").authenticated();
+                .antMatchers("/api/**").authenticated();
     }
 
 }

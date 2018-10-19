@@ -54,6 +54,7 @@ public class TradeController {
     @ResponseStatus(value = HttpStatus.OK)
     public List<String> topTrade(){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println(principal.toString());
         List<String> list = repository.findTopStock();
         if (list.size()>5) return list.subList(0,5);
         else return list;

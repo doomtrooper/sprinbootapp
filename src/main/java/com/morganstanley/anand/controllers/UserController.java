@@ -1,4 +1,4 @@
-package com.morganstanley.anand.oath;
+package com.morganstanley.anand.controllers;
 
 import com.morganstanley.anand.model.User;
 import com.morganstanley.anand.repository.UserRepository;

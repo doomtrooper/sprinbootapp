@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -49,6 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anonymous().disable()
                 .authorizeRequests()
                 .antMatchers("/oauth/token/**").permitAll();
+        http.exceptionHandling().authenticationEntryPoint(new RestAuthenticationEntryPoint());
+        //http.formLogin().failureHandler(authenticationFailureHandler());
     }
 
     @Bean
@@ -73,6 +76,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
         bean.setOrder(0);
         return bean;
+    }
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler(){
+        return new Oaut2AuthenticationFailureHandler();
+    }
+
+    @Bean
+    public Oauth2AcessDeniedHandler oauth2AcessDeniedHandler(){
+        return new Oauth2AcessDeniedHandler();
     }
 
 }
